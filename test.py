@@ -1,10 +1,33 @@
-enhancement_probs = {
-            2: {"success" : 0.6, "fail" : 0.4, "run" : 0.0},
-            3: {"success" : 0.5, "fail" : 0.5, "run" : 0.0},
-            4: {"success" : 0.4, "fail" : 0.6, "run" : 0.0},
-            5: {"success" : 0.307, "fail" : 0.693, "run" : 0.0},
-            6: {"success" : 0.205, "fail" : 0.765, "run" : 0.03},
-            7: {"success" : 0.103, "fail" : 0.857, "run" : 0.04},
-            8: {"success" : 0.05, "fail" : 0.9, "run" : 0.05}
-        }
-print(enhancement_probs[2])
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from collections import defaultdict
+import numpy as np
+import gymnasium as gym
+import random
+
+
+
+# from matplotlib import pyplot as plt
+
+# fig, ax = plt.subplots()
+# ax.plot([1,2,3,4], [10, 20, 25, 30])
+# ax.set_xlabel("x축 이름")
+# ax.set_ylabel("y축 이름")
+# ax.set_title("제목")
+
+# plt.show()
+
+data = np.random.rand(10, 10)
+print(f"==>> data: {data}")
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(data, annot=True, cmap="coolwarm", linewidths= 0.5)
+
+plt.xlabel("X축 (예: Dealer's First Card)")
+plt.ylabel("Y축 (예: Player's Sum)")
+plt.title("Heatmap 예제")
+
+plt.show()
