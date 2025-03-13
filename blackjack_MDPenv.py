@@ -18,7 +18,7 @@ class BlackjackAgent:
         learning_rate: float = 0.01,
         initial_epsilon: float = 0.99,
         epsilon_decay: float= 0.00001,
-        final_epsilon: float = 0.05,
+        final_epsilon: float = 0.01,
         discount_factor: float = 0.95
     ):
         self.env = env
@@ -53,7 +53,11 @@ class BlackjackAgent:
         G = 0
         for obs, action, reward in reversed(episode):
             G = reward + G * self.discount_factor
-            self.Q_values[obs][action] = self.Q_values[obs][action] + self.lr * (G - self.Q_values[obs][action])
+
+            self.N_values[(obs, action)] += 1
+            alpha = 1 / self.N_values[(obs, action)]
+            self.Q_values[obs][action] = self.Q_values[obs][action] + alpha * (G - self.Q_values[obs][action])
+            # self.Q_values[obs][action] = self.Q_values[obs][action] + self.lr * (G - self.Q_values[obs][action])
 
 if __name__ == "__main__":
 
