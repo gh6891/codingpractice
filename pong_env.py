@@ -224,7 +224,15 @@ def play():
     total_reward = 0
 
     while not episode_done:
-        action = agent.get_action(obs)  # 학습이 아닌 실행이므로 탐험 없이 행동 선택
+        # action = agent.get_action(obs)  # 학습이 아닌 실행이므로 탐험 없이 행동 선택
+
+        obs = torch.FloatTensor(obs).unsqueeze(0).to(agent.device)  # 차원 추가 후 변환
+        obs = obs.squeeze(2)  # 불필요한 차원 제거 (1, 4, 1, 84, 84) → (1, 4, 84, 84)
+
+        with torch.no_grad():
+            q_values = agent.model(obs)
+
+        action = q_values.argmax().item()  # 최적 행동 선택
 
         next_obs, reward, terminated, truncated, info = env.step(action)
         next_obs = frame_processor.process(next_obs)  # 다음 상태 전처리
@@ -257,7 +265,7 @@ def main():
     obs = frame_processor.process(obs)  # 초기 상태 변환
 
     agent = PongAgent(env=env)
-    num_of_episodes = 10000  # 학습할 에피소드 수
+    num_of_episodes = 3000  # 학습할 에피소드 수
 
     for episode in range(num_of_episodes):
         obs, info = env.reset()
